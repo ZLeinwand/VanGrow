@@ -1,0 +1,27 @@
+{
+  "name": "VanGrowth",
+  "version": "1.0.0",
+  "description": "### MVP An algorithm visualization tool that takes sampling algorithms and uses them over paintings to create voronoi diagrams using the most common color to each point. Will feature 3 algorithms (Uniform Random, Mitch's Best Candidate, Poisson-disc), how they work, and then live animation of them in action over a painting, while building a voronoi diagram of the most common color around each sample point.",
+  "main": "algos.js",
+  "scripts": {
+    "webpack": "webpack --watch --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZLeinwand/VanGrowth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZLeinwand/VanGrowth/issues"
+  },
+  "homepage": "https://github.com/ZLeinwand/VanGrowth#readme",
+  "dependencies": {
+    "babel-loader": "^7.1.4",
+    "webpack": "^4.8.3"
+  },
+  "devDependencies": {
+    "webpack-cli": "^2.1.4"
+  }
+}
