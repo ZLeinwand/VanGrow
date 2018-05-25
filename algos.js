@@ -1,4 +1,7 @@
 import poisson from './poissonDiscAlgo'
+import {voronoi} from 'd3-voronoi'
+
+// window.voronoi = voronoi()
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //   drawnCtx.fill()
     //   drawnCtx.stroke()
     // })
+    window.results = results
   }
 
 })

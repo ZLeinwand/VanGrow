@@ -19,6 +19,7 @@
   "homepage": "https://github.com/ZLeinwand/VanGrowth#readme",
   "dependencies": {
     "babel-loader": "^7.1.4",
+    "d3-voronoi": "^1.1.2",
     "webpack": "^4.8.3"
   },
   "devDependencies": {
