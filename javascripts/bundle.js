@@ -66,60 +66,128 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./algos.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./javascripts/algos.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./algos.js":
-/*!******************!*\
-  !*** ./algos.js ***!
-  \******************/
+/***/ "./javascripts/algos.js":
+/*!******************************!*\
+  !*** ./javascripts/algos.js ***!
+  \******************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _poissonDiscAlgo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./poissonDiscAlgo */ "./poissonDiscAlgo.js");
-/* harmony import */ var d3_voronoi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! d3-voronoi */ "./node_modules/d3-voronoi/index.js");
+/* harmony import */ var _runAlgo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./runAlgo */ "./javascripts/runAlgo.js");
 
-
-
-// window.voronoi = voronoi()
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.poisson = _poissonDiscAlgo__WEBPACK_IMPORTED_MODULE_0__["default"]
 
-  let original = document.getElementById("myCanvas")
-  let drawn = document.getElementById("myCanvas2")
-  let ctx = original.getContext("2d")
-  let drawnCtx = drawn.getContext("2d")
-  const vase = new Image()
-  vase.src = 'images/vase.jpg'
-  vase.onload = () => {
-    ctx.drawImage(vase,0,0)
-    let results = Object(_poissonDiscAlgo__WEBPACK_IMPORTED_MODULE_0__["default"])(833, 1000, 5, 30, 2, ctx, drawnCtx)
-    // results.forEach((point) => {
-    //   let imgData = ctx.getImageData(point[0], point[1], 1, 1).data
-    //   drawnCtx.beginPath();
-    //   drawnCtx.fillStyle = `rgb(${imgData[0]}, ${imgData[1]}, ${imgData[2]})`
-    //   drawnCtx.arc(point[0], point[1], 4, 0, 2*Math.PI);
-    //   drawnCtx.fill()
-    //   drawnCtx.stroke()
-    // })
-    window.results = results
+  const actionObject = {
+    algo: "uniformRandom",
+    painting: "selfie"
   }
+
+  window.actionObject = actionObject
+
+  const blurbObject = {
+    poisson: "Bridson's algorithm for Poisson-disc sampling starts " +
+    "with a sample taken completely randomly from the canvas and builds incrementally " +
+    "from there. It takes a random sample from it's list of active samples and will attempt to find a suitible" +
+    " candidate within it's annulus. It has a minimum radius samples can be from one another and searches " +
+    "for the next candidate in an ring two radius's wide. It will make a predetermined " +
+    "amount of attempts (usually 30) until it either finds a suitible candidate, or marking " +
+    "this sample as no longer active. The result is incrediblely even, yet still random, sampling.",
+    uniformRandom: "Uniform random selects points at completely random X and Y axises until the sample size has been" +
+    "reached. While it truly random, it is an ineffective algorithm for sampling as it leads to a lot of clustering" +
+    "which in turn leads to undersampled spots. You can see the over and undersampled points represented by larger and smaller" +
+    "voronoi polygons. This means we are not getting the most accurate representation of the color distribution of the original" +
+    "image."
+  }
+
+  const runButton = document.getElementById("run")
+  const clearButton = document.getElementById("clear")
+
+  const poissonButton = document.getElementById("poisson")
+  const uniformRandomButton = document.getElementById("uniformRandom")
+  const blurb = document.getElementById("algoBlurb")
+  blurb.innerHTML = blurbObject.uniformRandom
+
+  const selfieButton = document.getElementById("selfie")
+  const vaseButton = document.getElementById("vase")
+  const roadButton = document.getElementById("road")
+
+
+  poissonButton.addEventListener('click', () => {
+    actionObject.algo = "poisson"
+    blurb.innerHTML = blurbObject.poisson
+  })
+
+  uniformRandomButton.addEventListener('click', () => {
+    actionObject.algo = "uniformRandom"
+    blurb.innerHTML = blurbObject.uniformRandom
+  })
+
+  selfieButton.addEventListener('click', () => {
+    actionObject.painting = "selfie"
+  })
+
+  vaseButton.addEventListener('click', () => {
+    actionObject.painting = "vase"
+  })
+
+  roadButton.addEventListener('click', () => {
+    actionObject.painting = "road"
+  })
+
+  clearButton.addEventListener('click', () => {
+    clearTimeout(window.clearInfo)
+    const canvas = document.getElementById('myCanvas2')
+    const newCanvas = document.createElement('div')
+    newCanvas.innerHTML = '<canvas id="myCanvas2" width="0" height="0"></canvas>'
+    canvas.parentNode.replaceChild(newCanvas, canvas)
+  })
+
+  runButton.addEventListener('click', () => {
+    if (window.clearInfo) { clearTimeout(window.clearInfo) }
+    Object(_runAlgo__WEBPACK_IMPORTED_MODULE_0__["default"])(actionObject)
+    window.scrollTo(0, document.body.scrollHeight)
+  })
+
+
+
+
+
+  // const vase = new Image()
+  // vase.src = 'images/scaled_selfie.png'
+  // let original = document.getElementById("myCanvas")
+  // let drawn = document.getElementById("myCanvas2")
+  // vase.onload = () => {
+  //   original.height = vase.height
+  //   original.width = vase.width
+  //   drawn.height = vase.height
+  //   drawn.width = vase.width
+  //   let ctx = original.getContext("2d")
+  //   let drawnCtx = drawn.getContext("2d")
+  //   ctx.drawImage(vase,0,0, vase.width, vase.height, 0, 0, original.width, original.height)
+  //   const p = new Poisson(vase.width, vase.height, 8, 30, ctx, drawnCtx)
+  //   p.initialize()
+  //   p.fireLoop()
+  //
+  // }
 
 })
 
 
 /***/ }),
 
-/***/ "./formulas/annulus_point_randomizer.js":
-/*!**********************************************!*\
-  !*** ./formulas/annulus_point_randomizer.js ***!
-  \**********************************************/
+/***/ "./javascripts/formulas/annulus_point_randomizer.js":
+/*!**********************************************************!*\
+  !*** ./javascripts/formulas/annulus_point_randomizer.js ***!
+  \**********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -153,19 +221,17 @@ const newAnnulusPoint = (currentPos, r, canvasWidth, canvasHeight) => {
 
 /***/ }),
 
-/***/ "./formulas/distance.js":
-/*!******************************!*\
-  !*** ./formulas/distance.js ***!
-  \******************************/
+/***/ "./javascripts/formulas/distance.js":
+/*!******************************************!*\
+  !*** ./javascripts/formulas/distance.js ***!
+  \******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-
 /* harmony default export */ __webpack_exports__["default"] = ((posA, posB) => {
-
   const dx = Math.max(posA[0], posB[0]) - Math.min(posA[0], posB[0])
   const dy = Math.max(posA[1], posB[1]) - Math.min(posA[1], posB[1])
 
@@ -176,46 +242,50 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./lib/check_candidate.js":
-/*!********************************!*\
-  !*** ./lib/check_candidate.js ***!
-  \********************************/
+/***/ "./javascripts/lib/check_candidate.js":
+/*!********************************************!*\
+  !*** ./javascripts/lib/check_candidate.js ***!
+  \********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _formulas_distance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../formulas/distance */ "./formulas/distance.js");
-/* harmony import */ var _sample_to_grid_converter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sample_to_grid_converter */ "./lib/sample_to_grid_converter.js");
+/* harmony import */ var _formulas_distance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../formulas/distance */ "./javascripts/formulas/distance.js");
+/* harmony import */ var _sample_to_grid_converter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sample_to_grid_converter */ "./javascripts/lib/sample_to_grid_converter.js");
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ((allSamples) => (theGrid) => (currentPos, gridPos, r) => {
+/* harmony default export */ __webpack_exports__["default"] = ((allSamples) => (theGrid) => (r) => (currentPos, gridPos) => {
   for (let i = -2; i <= 2; i++){
     let checkX = gridPos[0] - i
-    if (checkX < 0 || checkX >= theGrid.length) { continue }
+    if (checkX < 0 || checkX >= theGrid.length) {
+      continue
+    }
     for (let j = -2; j <= 2; j++){
       let checkY = gridPos[1] - j
-      if (checkY < 0 || checkY >= theGrid[checkX].length) { continue }
+      if (checkY < 0 || checkY >= theGrid[0].length) {
+        continue
+      }
       if (theGrid[checkX][checkY] !== -1){
         let indexOfPosToCheck = theGrid[checkX][checkY]
+
         if (Object(_formulas_distance__WEBPACK_IMPORTED_MODULE_0__["default"])(currentPos, allSamples[indexOfPosToCheck]) <= r){
           return false
         }
       }
     }
   }
-
   return true
 });
 
 
 /***/ }),
 
-/***/ "./lib/grid.js":
-/*!*********************!*\
-  !*** ./lib/grid.js ***!
-  \*********************/
+/***/ "./javascripts/lib/grid.js":
+/*!*********************************!*\
+  !*** ./javascripts/lib/grid.js ***!
+  \*********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -238,10 +308,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./lib/sample_to_grid_converter.js":
-/*!*****************************************!*\
-  !*** ./lib/sample_to_grid_converter.js ***!
-  \*****************************************/
+/***/ "./javascripts/lib/sample_to_grid_converter.js":
+/*!*****************************************************!*\
+  !*** ./javascripts/lib/sample_to_grid_converter.js ***!
+  \*****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -254,6 +324,270 @@ __webpack_require__.r(__webpack_exports__);
 
   return [modX, modY]
 });
+
+
+/***/ }),
+
+/***/ "./javascripts/poissonDisc.js":
+/*!************************************!*\
+  !*** ./javascripts/poissonDisc.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PoissonDiscAlgoGenerator; });
+/* harmony import */ var _formulas_annulus_point_randomizer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formulas/annulus_point_randomizer */ "./javascripts/formulas/annulus_point_randomizer.js");
+/* harmony import */ var _lib_grid_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/grid.js */ "./javascripts/lib/grid.js");
+/* harmony import */ var _lib_sample_to_grid_converter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/sample_to_grid_converter */ "./javascripts/lib/sample_to_grid_converter.js");
+/* harmony import */ var _lib_check_candidate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/check_candidate */ "./javascripts/lib/check_candidate.js");
+/* harmony import */ var d3_voronoi__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3-voronoi */ "./node_modules/d3-voronoi/index.js");
+/* harmony import */ var _visualAlgorithm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./visualAlgorithm */ "./javascripts/visualAlgorithm.js");
+
+
+
+
+
+
+
+
+class PoissonDiscAlgoGenerator extends _visualAlgorithm__WEBPACK_IMPORTED_MODULE_5__["default"] {
+  constructor(canvasWidth, canvasHeight, radius, tries, originalContext, drawnContext, initialSample){
+    super(canvasWidth, canvasHeight, originalContext, drawnContext)
+    this.r = radius
+    this.k = tries
+    this.cellSize = Math.floor(radius / Math.sqrt(2))
+    this.gridHeight = Math.ceil(canvasHeight / this.cellSize)
+    this.gridWidth = Math.ceil(canvasWidth / this.cellSize)
+    this.grid = Object(_lib_grid_js__WEBPACK_IMPORTED_MODULE_1__["default"])(2, radius, this.gridWidth, this.gridHeight)
+    this.converter = Object(_lib_sample_to_grid_converter__WEBPACK_IMPORTED_MODULE_2__["default"])(this.cellSize)
+    this.allSamples = []
+    this.activeSamples = []
+    this.initialSample = initialSample || [Math.round(Math.random() * canvasWidth), Math.round(Math.random() * canvasHeight)]
+    this.checkCandidate = Object(_lib_check_candidate__WEBPACK_IMPORTED_MODULE_3__["default"])(this.allSamples)(this.grid)(this.r)
+  }
+
+
+  initialize(){
+    this.allSamples.push(this.initialSample)
+    this.activeSamples.push(0)
+    const gridPos = this.converter(this.initialSample)
+    this.grid[gridPos[0]][gridPos[1]] = 0
+  }
+
+  getNextSampleSet(n){
+    for (let i = 0; i < n; i++){
+      if (this.activeSamples.length === 0) { break }
+      let tries = 0
+      let randomIndex = Math.floor(this.activeSamples.length * Math.random())
+      let currentActivePos = this.allSamples[this.activeSamples[randomIndex]]
+      while(tries < this.k){
+        let currentCandidate = Object(_formulas_annulus_point_randomizer__WEBPACK_IMPORTED_MODULE_0__["default"])(currentActivePos, this.r, this.w, this.h)
+        let gridCandidate = this.converter(currentCandidate)
+        if (this.checkCandidate(currentCandidate, gridCandidate)){
+          this.handleSuccess(currentCandidate, gridCandidate)
+
+          break;
+        }else {
+          tries++
+        }
+      }
+      if (tries === this.k) {
+        this.activeSamples.splice(randomIndex, 1)
+      }
+    }
+    this.clearCanvas()
+    this.redraw()
+  }
+
+  fireLoop(){
+    this.getNextSampleSet(20)
+    window.clearInfo = window.setTimeout(() => {
+      if (this.activeSamples.length > 0){
+        this.fireLoop()
+      }
+    }, 0)
+  }
+
+  handleSuccess(currentCandidate, gridCandidate){
+    this.allSamples.push(currentCandidate)
+    this.activeSamples.push(this.allSamples.length - 1)
+    this.grid[gridCandidate[0]][gridCandidate[1]] = this.allSamples.length - 1
+  }
+
+
+
+
+
+}
+
+
+/***/ }),
+
+/***/ "./javascripts/runAlgo.js":
+/*!********************************!*\
+  !*** ./javascripts/runAlgo.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _poissonDisc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./poissonDisc */ "./javascripts/poissonDisc.js");
+/* harmony import */ var _uniformRandom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uniformRandom */ "./javascripts/uniformRandom.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ((actionObject) => {
+  let imgFile;
+  switch (actionObject.painting) {
+    case "selfie":
+      imgFile = new Image()
+      imgFile.src ='images/scaled_selfie.png'
+      break;
+    case "vase":
+      imgFile = new Image()
+      imgFile.src ='images/scaled_vase.png'
+      break;
+    case "road":
+      imgFile = new Image()
+      imgFile.src ='images/scaled_road.png'
+      break;
+    default:
+
+  }
+
+  let original = document.getElementById("myCanvas")
+  let drawn = document.getElementById("myCanvas2")
+
+  imgFile.onload = () => {
+    original.height = imgFile.height
+    original.width = imgFile.width
+    drawn.height = imgFile.height
+    drawn.width = imgFile.width
+    let ctx = original.getContext("2d")
+    let drawnCtx = drawn.getContext("2d")
+    ctx.drawImage(imgFile, 0, 0, imgFile.width, imgFile.height, 0, 0, original.width, original.height)
+    original.style.border = "2px solid black"
+    drawn.style.border = "2px solid black"
+
+
+
+    switch (actionObject.algo) {
+      case "poisson":
+        const p = new _poissonDisc__WEBPACK_IMPORTED_MODULE_0__["default"](imgFile.width, imgFile.height, 7, 30, ctx, drawnCtx)
+        p.initialize()
+        p.fireLoop()
+        break;
+      case "uniformRandom":
+        const u = new _uniformRandom__WEBPACK_IMPORTED_MODULE_1__["default"](imgFile.width, imgFile.height, ctx, drawnCtx, 4000)
+        u.fireLoop()
+        break;
+      default:
+
+    }
+  }
+});
+
+
+/***/ }),
+
+/***/ "./javascripts/uniformRandom.js":
+/*!**************************************!*\
+  !*** ./javascripts/uniformRandom.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UniformRandom; });
+/* harmony import */ var d3_voronoi__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-voronoi */ "./node_modules/d3-voronoi/index.js");
+/* harmony import */ var _visualAlgorithm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./visualAlgorithm */ "./javascripts/visualAlgorithm.js");
+
+
+
+class UniformRandom extends _visualAlgorithm__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  constructor(canvasWidth, canvasHeight, originalContext, drawnContext, sampleSize){
+    super(canvasWidth, canvasHeight, originalContext, drawnContext)
+    this.sampleSize = sampleSize
+    this.allSamples = []
+  }
+
+  getNextSampleSet(n){
+    for (let i = 0; i < n; i++){
+      if (this.allSamples.length >= this.sampleSize) {break}
+      let x = Math.floor(Math.random() * this.w)
+      let y = Math.floor(Math.random() * this.h)
+      this.allSamples.push([x, y])
+    }
+    this.clearCanvas()
+    this.redraw()
+  }
+
+  fireLoop(){
+    this.getNextSampleSet(30)
+    window.clearInfo = window.setTimeout(() => {
+      if (this.allSamples.length < this.sampleSize){
+        this.fireLoop()
+      }
+    }, 0)
+  }
+}
+
+
+/***/ }),
+
+/***/ "./javascripts/visualAlgorithm.js":
+/*!****************************************!*\
+  !*** ./javascripts/visualAlgorithm.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VisualAlgorithm; });
+/* harmony import */ var d3_voronoi__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-voronoi */ "./node_modules/d3-voronoi/index.js");
+
+
+class VisualAlgorithm {
+  constructor(canvasWidth, canvasHeight, originalContext, drawnContext){
+    this.w = canvasWidth
+    this.h = canvasHeight
+    this.originalContext = originalContext
+    this.drawnContext = drawnContext
+    this.voronoi = Object(d3_voronoi__WEBPACK_IMPORTED_MODULE_0__["voronoi"])().extent([[0,0],[canvasWidth, canvasHeight]])
+  }
+  clearCanvas(){
+    this.drawnContext.clearRect(0, 0, this.w, this.h)
+  }
+
+  redraw(){
+    let polys = this.voronoi(this.allSamples).polygons()
+    for (let i = 0; i < polys.length; i++){
+      if (typeof this.allSamples[i] === 'undefined') {debugger}
+      let currentSample = this.allSamples[i]
+      let imgData = this.originalContext.getImageData(currentSample[0], currentSample[1], 1, 1).data
+      if (typeof imgData[0] === 'undefined') {debugger}
+      this.drawnContext.fillStyle = `rgb(${imgData[0]}, ${imgData[1]}, ${imgData[2]})`
+
+      // if (typeof polys[i] === 'undefined' || typeof polys[i][0] === 'undefined' || typeof polys[i][0][0] === 'undefined') {debugger}
+      if (typeof polys[i] !== 'undefined'){
+        this.drawnContext.beginPath();
+        this.drawnContext.moveTo(polys[i][0][0], polys[i][0][1])
+        for (let j = 1; j < polys[i].length; j++){
+          this.drawnContext.lineTo(polys[i][j][0], polys[i][j][1])
+        }
+
+        this.drawnContext.closePath()
+        this.drawnContext.fill()
+      }
+    }
+  }
+}
 
 
 /***/ }),
@@ -1433,166 +1767,6 @@ __webpack_require__.r(__webpack_exports__);
   };
 
   return voronoi;
-});
-
-
-/***/ }),
-
-/***/ "./poissonDiscAlgo.js":
-/*!****************************!*\
-  !*** ./poissonDiscAlgo.js ***!
-  \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_grid_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/grid.js */ "./lib/grid.js");
-/* harmony import */ var _formulas_annulus_point_randomizer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./formulas/annulus_point_randomizer */ "./formulas/annulus_point_randomizer.js");
-/* harmony import */ var _formulas_distance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./formulas/distance */ "./formulas/distance.js");
-/* harmony import */ var _lib_sample_to_grid_converter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/sample_to_grid_converter */ "./lib/sample_to_grid_converter.js");
-/* harmony import */ var _lib_check_candidate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/check_candidate */ "./lib/check_candidate.js");
-/* harmony import */ var d3_voronoi__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! d3-voronoi */ "./node_modules/d3-voronoi/index.js");
-
-
-
-
-
-
-window.voronoi = Object(d3_voronoi__WEBPACK_IMPORTED_MODULE_5__["voronoi"])()
-
-const vmoney = Object(d3_voronoi__WEBPACK_IMPORTED_MODULE_5__["voronoi"])()
-
-
-/* harmony default export */ __webpack_exports__["default"] = ((canvasWidth, canvasHeight, r, k, dimensions, ctx, drawnCtx) => {
-  // step 0 initilaize n-dimentionsal background grid for storing samples and accelerating spatial searches
-  const cellSize = Math.floor(r / Math.sqrt(dimensions))
-  const gridHeight = Math.ceil(canvasHeight / cellSize)
-  const gridWidth = Math.ceil(canvasWidth / cellSize)
-
-  //curried function - takes cellSize, returns function that takes position
-  const converter = Object(_lib_sample_to_grid_converter__WEBPACK_IMPORTED_MODULE_3__["default"])(cellSize)
-
-  const theGrid = Object(_lib_grid_js__WEBPACK_IMPORTED_MODULE_0__["default"])(2, r, gridWidth, gridHeight)
-  const allSamples = []
-  let activeSamples = []
-
-  // step 1 select initial sample
-
-  const initialSample = [Math.round(Math.random() * canvasWidth), Math.round(Math.random() * canvasHeight)]
-  const initialGridSample = converter(initialSample)
-
-  allSamples.push(initialSample)
-  activeSamples.push(0)
-
-  theGrid[initialGridSample[0]][initialGridSample[1]] = 0
-  const checkCandidate = Object(_lib_check_candidate__WEBPACK_IMPORTED_MODULE_4__["default"])(allSamples)(theGrid)
-
-  // const getNextSample = (activeSamples) => {
-  //   let tries = 0
-  //   let randomIndex = Math.floor(activeSamples.length * Math.random())
-  //   let currentActivePos = allSamples[activeSamples[randomIndex]]
-  //   while(tries < k){
-  //     let currentCandidate = randomAnnulusPoint(currentActivePos, r, canvasWidth, canvasHeight)
-  //
-  //
-  //     if (checkCandidate(currentCandidate, converter(currentCandidate), r)){
-  //       allSamples.push(currentCandidate)
-  //       activeSamples.push(allSamples.length - 1)
-  //       let currentGridCandidate = converter(currentCandidate)
-  //       // console.log(`gridCand= ${currentGridCandidate}`)
-  //       // console.log(`currentCand= ${currentCandidate}`)
-  //       // console.log(`currentGrid= ${theGrid[currentGridCandidate[0]][currentGridCandidate[1]]}`)
-  //       theGrid[currentGridCandidate[0]][currentGridCandidate[1]] = allSamples.length - 1
-  //       let imgData = ctx.getImageData(currentCandidate[0], currentCandidate[1], 1, 1).data
-  //       drawnCtx.beginPath();
-  //       drawnCtx.fillStyle = `rgb(${imgData[0]}, ${imgData[1]}, ${imgData[2]})`
-  //       drawnCtx.arc(currentCandidate[0], currentCandidate[1], 4, 0, 2*Math.PI);
-  //       drawnCtx.fill()
-  //       drawnCtx.strokeStyle = '#FFFFFF'
-  //       drawnCtx.stroke()
-  //       break;
-  //     }
-  //     else {
-  //       tries++
-  //     }
-  //   }
-  //
-  //   if (tries === k) {
-  //     activeSamples.splice(randomIndex, 1)
-  //   }
-  //   // debugger
-  //   if (activeSamples.length > 0) {
-  //     // debugger
-  //     window.setTimeout(() => (getNextSample(activeSamples)), 0.01)
-  //     // getNextSample(activeSamples)
-  //   }
-  // }
-
-  //run algo until activeSamples is empty
-  while (activeSamples.length > 0) {
-    let tries = 0
-    let randomIndex = Math.floor(activeSamples.length * Math.random())
-    let currentActivePos = allSamples[activeSamples[randomIndex]]
-    while(tries < k){
-      let currentCandidate = Object(_formulas_annulus_point_randomizer__WEBPACK_IMPORTED_MODULE_1__["default"])(currentActivePos, r, canvasWidth, canvasHeight)
-
-
-      if (checkCandidate(currentCandidate, converter(currentCandidate), r)){
-        allSamples.push(currentCandidate)
-        activeSamples.push(allSamples.length - 1)
-        let currentGridCandidate = converter(currentCandidate)
-        // console.log(`gridCand= ${currentGridCandidate}`)
-        // console.log(`currentCand= ${currentCandidate}`)
-        // console.log(`currentGrid= ${theGrid[currentGridCandidate[0]][currentGridCandidate[1]]}`)
-        theGrid[currentGridCandidate[0]][currentGridCandidate[1]] = allSamples.length - 1
-        // let imgData = ctx.getImageData(currentCandidate[0], currentCandidate[1], 1, 1).data
-        // drawnCtx.beginPath();
-        // drawnCtx.fillStyle = `rgb(${imgData[0]}, ${imgData[1]}, ${imgData[2]})`
-        // drawnCtx.arc(currentCandidate[0], currentCandidate[1], 4, 0, 2*Math.PI);
-        // drawnCtx.fill()
-        // drawnCtx.strokeStyle = '#000000'
-        // drawnCtx.stroke()
-        break;
-      }
-      else {
-        tries++
-      }
-    }
-
-    if (tries === k) {
-      activeSamples.splice(randomIndex, 1)
-    }
-
-  }
-
-  // window.setInterval(getNextSample, 0)
-  // getNextSample(activeSamples)
-
-  let v = vmoney
-  let v2 = v.extent([[0,0],[canvasWidth, canvasHeight]])
-  let polys = v2(allSamples).polygons()
-  let imgData;
-  let currentSample;
-
-  for (let i = 0; i < polys.length; i++){
-    currentSample = allSamples[i]
-    imgData = ctx.getImageData(currentSample[0], currentSample[1], 1, 1).data
-    drawnCtx.fillStyle = `rgb(${imgData[0]}, ${imgData[1]}, ${imgData[2]})`
-    drawnCtx.beginPath();
-
-    drawnCtx.moveTo(polys[i][0][0], polys[i][0][1])
-    for (let j = 1; j < polys[i].length; j++){
-      drawnCtx.lineTo(polys[i][j][0], polys[i][j][1])
-    }
-
-    drawnCtx.closePath()
-    drawnCtx.fill()
-  }
-
-
-
-  return allSamples
 });
 
 

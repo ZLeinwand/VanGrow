@@ -3,12 +3,89 @@
   <head>
     <meta charset="utf-8">
     <title>Mayadog</title>
-    <script type='text/javascript' src='bundle.js'>
-    </script>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <link rel="stylesheet" href="./stylesheets/stylesheet.css">
+    <script type='text/javascript' src='javascripts/bundle.js'></script>
+    <link rel="shortcut icon" type="image/png" href="./images/favicon.jpg"/>
   </head>
   <body>
-    <h1>sup zaddy</h1>
-    <canvas id="myCanvas" width="833" height="1000"></canvas>
-    <canvas id="myCanvas2" width="833" height="1000"></canvas>
+    <section class='staticTop'>
+      <img src="./images/starry-night-banner.jpg" />
+      <h1>Vincent Van Grow</h1>
+      <h3>Sampling images with algorithms - by Zack Leinwand</h3>
+
+      <p>
+        Algorithms are a fascinating use case for visualization. To visualize an algorithm, we don’t merely fit data to a chart; there is no primary dataset.
+        Instead there are logical rules that describe behavior. This may be why algorithm visualizations are so unusual,
+        as designers experiment with novel forms to better communicate. This is reason enough to study them.
+        But algorithms are also a reminder that visualization is more than a tool for finding patterns in data.
+        Visualization leverages the human visual system to augment human intellect: we can use it to better understand these
+        important abstract processes, and perhaps other things, too. <br/><br/><p class='sig'>-Matt Bostock, creator of D3</p>
+      </p>
+
+      <h3>The algorithms</h3>
+      <div class="algoExplainer">
+        <p class='algoText'>
+          After doing research on random sampling algorithms, I found the three best examples to illustrate are Uniform Random, Mitch's Best Candidate,
+          and Bridson's Implementation of Poisson Disc. They all use randomness to pick sample points, with varying levels of restrictions. Uniform Random
+          has no restrictions, Best Candidate has some, and Poisson Disc has an absolute restriction on minimum distance between points. We will be using
+          these algorithms to find random sample points on Van Gogh masterpieces to build Voronoi diagrams from the colors of those points. This will
+          illustrate how uniform (or not) these random sample algorithms are. I implemented the algorithms to run and display their points in a 'real time'
+          visualization of themselves at work. We can watch them build their interpretation of Van Gogh's work as a Voronoi Diagram
+        </p>
+        <div class="sidebyside">
+          <img src="./images/sidebyside.png" alt="self-portrait">
+          <h2>Self-Portrait, 1887 side by side with Poisson Disc sampled Voronoi Diagram</h2>
+        </div>
+      </div>
+
+      <div class="algoExplainer">
+        <div class="sidebyside">
+          <img src="./images/voronoi1.png" alt="voronoi-diagram">
+          <h2>Voronoi diagram</h2>
+        </div>
+        <p class='voronoiText'>
+          A voronoi diagram takes a series of points and creates polygons mapped by regions closest to each point.
+          Each pixel within a polygon is closer to it's polygon's sample point than any other. We use the sample
+          point's position within the painting to determine its color, and pass down that color to every pixel within
+          the Voronoi polygon. The result is a beautiful algorithmic interpretation of the colors and positions of
+          the colors of the painting while only needing a small portion of the data of the original image
+        </p>
+      </div>
+
+    </section>
+
+    <section class="theMeat">
+      <h3>See the algorithms in action</h3>
+      <h4>Select a Masterpiece</h4>
+      <div class="paintingSelector">
+        <button id="selfie" type="button" name="button">Self Portrait</button>
+        <button id="vase" type="button" name="button">Red Vase</button>
+        <button id="road" type="button" name="button">Road with Cypress</button>
+        <button id="clear" type="button" name="button">Clear Canvas</button>
+        <button id="run" type="button" name="button">Run Algorithm!</button>
+      </div>
+      <h4>Select an Algorithm</h4>
+      <div class="algoSelector">
+        <div class="algoButtons">
+          <button id='uniformRandom' type="button" name="button">Uniform Random</button>
+          <button id='bestCandidate' type="button" name="button">Best Candidate</button>
+          <button id="poisson" type="button" name="button">Poisson Disc</button>
+        </div>
+        <div id="algoBlurb">
+          Lorem blubasbson
+        </div>
+      </div>
+
+    </section>
+
+    <section class='theCanvases'>
+      <canvas id="myCanvas" width="0" height="0"></canvas>
+      <canvas id="myCanvas2" width="0" height="0"></canvas>
+    </section>
+
+
+
   </body>
 </html>
