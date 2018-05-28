@@ -56,7 +56,7 @@ export default class PoissonDiscAlgoGenerator extends VisualAlgorithm {
   }
 
   fireLoop(){
-    this.getNextSampleSet(330)
+    this.getNextSampleSet(450)
     window.clearInfo = window.setTimeout(() => {
       if (this.activeSamples.length > 0){
         this.fireLoop()
