@@ -1,8 +1,11 @@
 import Poisson from './poissonDisc'
 import UniformRandom from './uniformRandom'
+import BestCandidate from './bestCandidate'
 
 
 export default (actionObject) => {
+  console.log(actionObject)
+
   let imgFile;
   switch (actionObject.painting) {
     case "selfie":
@@ -47,7 +50,11 @@ export default (actionObject) => {
         const u = new UniformRandom(imgFile.width, imgFile.height, ctx, drawnCtx, 4000)
         u.fireLoop()
         break;
-      default:
+
+      case "bestCandidate":
+        const b = new BestCandidate(imgFile.width, imgFile.height, ctx, drawnCtx, 20, 4500)
+        b.fireLoop()
+        break;
 
     }
   }

@@ -1,6 +1,6 @@
 body {
   width: 1920px;
-  min-height: 3236px;
+  min-height: 3215px;
   margin: auto;
   padding-bottom: 10px;
 }
@@ -104,13 +104,12 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 170px;
+  width: 190px;
   height: 160px;
 }
 
 .algoButtons > button {
   height: 38px;
-  background-color: teal;
   color: white;
   font-size: 16px;
   padding: 8px;
@@ -142,7 +141,6 @@ h4 {
 .paintingSelector > button {
   height: 38px;
   width: 190px;
-  background-color: teal;
   color: white;
   font-size: 16px;
   padding: 8px;
@@ -163,4 +161,21 @@ h4 {
 #run {
   background-color: red;
   border: 1px solid black;
+}
+
+#clear {
+  background-color: red;
+  border: 1px solid black;
+}
+
+#banner1 {
+  display: none;
+}
+
+.selected {
+  background-color: orange;
+}
+
+.unselected {
+  background-color: teal;
 }

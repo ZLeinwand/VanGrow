@@ -11,7 +11,8 @@
   </head>
   <body>
     <section class='staticTop'>
-      <img src="./images/starry-night-banner.jpg" />
+      <canvas id="banner1" width="0" height="0"></canvas>
+      <canvas id="banner2" width="0" height="0"></canvas>
       <h1>Vincent Van Grow</h1>
       <h3>Sampling images with algorithms - by Zack Leinwand</h3>
 
@@ -60,18 +61,18 @@
       <h3>See the algorithms in action</h3>
       <h4>Select a Masterpiece</h4>
       <div class="paintingSelector">
-        <button id="selfie" type="button" name="button">Self Portrait</button>
-        <button id="vase" type="button" name="button">Red Vase</button>
-        <button id="road" type="button" name="button">Road with Cypress</button>
-        <button id="clear" type="button" name="button">Clear Canvas</button>
         <button id="run" type="button" name="button">Run Algorithm!</button>
+        <button id="selfie" class='selected' type="button" name="button">Self Portrait</button>
+        <button id="vase" class='unselected' type="button" name="button">Red Vase</button>
+        <button id="road" class='unselected' type="button" name="button">Road with Cypress</button>
+        <button id="clear" type="button" name="button">Clear Canvas</button>
       </div>
       <h4>Select an Algorithm</h4>
       <div class="algoSelector">
         <div class="algoButtons">
-          <button id='uniformRandom' type="button" name="button">Uniform Random</button>
-          <button id='bestCandidate' type="button" name="button">Best Candidate</button>
-          <button id="poisson" type="button" name="button">Poisson Disc</button>
+          <button id='uniformRandom' class='selected' type="button" name="button">Uniform Random</button>
+          <button id='bestCandidate' class='unselected' type="button" name="button">Best Candidate</button>
+          <button id="poisson" class='unselected' type="button" name="button">Poisson Disc</button>
         </div>
         <div id="algoBlurb">
           Lorem blubasbson
