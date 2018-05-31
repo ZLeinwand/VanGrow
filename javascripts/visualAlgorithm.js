@@ -15,7 +15,6 @@ export default class VisualAlgorithm {
   redraw(){
     let polys = this.voronoi(this.allSamples).polygons()
     for (let i = 0; i < polys.length; i++){
-      if (typeof this.allSamples[i] === 'undefined') {debugger}
       let currentSample = this.allSamples[i]
       let imgData = this.originalContext.getImageData(currentSample[0], currentSample[1], 1, 1).data
       if (typeof imgData[0] === 'undefined') {debugger}

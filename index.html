@@ -25,10 +25,10 @@
         important abstract processes, and perhaps other things, too. <br/><br/><p class='sig'>-Matt Bostock, creator of D3</p>
       </p>
 
-      <h3>The algorithms</h3>
+      <h3>The algorithms and why we use them</h3>
       <div class="algoExplainer">
         <p class='algoText'>
-          After doing research on random sampling algorithms, I found the three best examples to illustrate are Uniform Random, Mitch's Best Candidate,
+          From post production effects to anti-aliasing techniques to computer vision, random sampling algorithms are being used everyday under the hood of many technologies we take for granted. After doing research on random sampling algorithms, I found the three best examples to illustrate are Uniform Random, Mitchell's Best Candidate,
           and Bridson's Implementation of Poisson Disc. They all use randomness to pick sample points, with varying levels of restrictions. Uniform Random
           has no restrictions, Best Candidate has some, and Poisson Disc has an absolute restriction on minimum distance between points. We will be using
           these algorithms to find random sample points on Van Gogh masterpieces to build Voronoi diagrams from the colors of those points. This will
