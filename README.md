@@ -1,7 +1,7 @@
-# VanGrowth
+# Vincent Van Grow
 
 ### MVP
-An algorithm visualization tool that takes sampling algorithms and uses them over paintings to create voronoi diagrams using the most common color to each point. Will feature 3 algorithms (Uniform Random, Mitch's Best Candidate, Poisson-disc), how they work, and then live animation of them in action over a painting, while building a voronoi diagram of the most common color around each sample point.
+An algorithm visualization tool that takes sampling algorithms and uses them over paintings to create voronoi diagrams using the most common color to each point. Will feature 3 algorithms (Uniform Random, Mitchell's Best Candidate, Poisson-disc), how they work, and then live animation of them in action over a painting, while building a voronoi diagram of the most common color around each sample point.
 
 ### Technologies, Libraries, APIs
 Will use JS with D3, HTML, and CSS
