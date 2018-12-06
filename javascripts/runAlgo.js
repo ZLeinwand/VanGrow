@@ -42,7 +42,7 @@ export default (actionObject) => {
 
     switch (actionObject.algo) {
       case "poisson":
-        const p = new Poisson(imgFile.width, imgFile.height, 3, 30, ctx, drawnCtx)
+        const p = new Poisson(imgFile.width, imgFile.height, 2, 30, ctx, drawnCtx)
         p.initialize()
         p.fireLoop()
         break;
